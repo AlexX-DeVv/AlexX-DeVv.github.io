@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A47B8">
+  <meta name="description" content="Palabra Nica: 100 refranes y dichos de la tradición oral nicaragüense, con significado, audio y un reto para jugar.">
+  <title>Palabra Nica — Refranero popular nicaragüense</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500..800;1,9..144,400..700&family=Outfit:wght@400..800&display=swap" rel="stylesheet">
+
+  <script>
+    /* Aplica el tema antes de pintar para evitar parpadeos */
+    (function () {
+      var t = "light";
+      try {
+        t = localStorage.getItem("palabra-nica-tema") ||
+            (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      } catch (e) {}
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+
+  <style>
+    /* ============ TOKENS ============ */
+    :root {
+      --azul: #0A47B8;
+      --azul-prof: #062E7D;
+      --celeste: #3FA9F5;
+      --sol: #FFB81C;
+      --coral: #F0533C;
+      --verde: #12A150;
+      --turquesa: #0E9AA7;
+      --magenta: #D6336C;
+
+      --bg: #FFF8E8;
+      --bg-2: #FFEFCC;
+      --card: #FFFFFF;
+      --ink: #14204A;
+      --muted: #55608A;
+      --line: #E7DCC0;
+      --tint: #EAF2FF;
+      --on-azul: #FFFFFF;
+      --shadow: 0 1px 2px rgba(6, 46, 125, .06), 0 12px 28px -12px rgba(6, 46, 125, .22);
+      --shadow-hover: 0 2px 4px rgba(6, 46, 125, .08), 0 22px 40px -14px rgba(6, 46, 125, .34);
+      --focus: #0A47B8;
+      --dots: rgba(10, 71, 184, .07);
+    }
+    :root[data-theme="dark"] {
+      --azul: #5B9BFF;
+      --azul-prof: #CFE0FF;
+      --bg: #0A1230;
+      --bg-2: #0E1A44;
+      --card: #121E4B;
+      --ink: #EEF2FF;
+      --muted: #A5B0DA;
+      --line: #25336E;
+      --tint: #17275F;
+      --on-azul: #06122f;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 30px -14px rgba(0, 0, 0, .7);
+      --shadow-hover: 0 2px 4px rgba(0, 0, 0, .5), 0 24px 44px -14px rgba(0, 0, 0, .85);
+      --focus: #FFD35C;
+      --dots: rgba(255, 255, 255, .05);
+      color-scheme: dark;
+    }
+
+    /* ============ BASE ============ */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body {
+      margin: 0;
+      font-family: "Outfit", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 1.0625rem;
+      line-height: 1.6;
+      color: var(--ink);
+      background-color: var(--bg);
+      background-image: radial-gradient(var(--dots) 1.4px, transparent 1.6px);
+      background-size: 22px 22px;
+      transition: background-color .3s, color .3s;
+    }
+    button, input { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    a { color: var(--azul); }
+    :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 8px; }
+    .wrap { width: min(1160px, calc(100% - 32px)); margin-inline: auto; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    svg { display: block; }
+    .serif { font-family: "Fraunces", Georgia, "Times New Roman", serif; }
+
+    /* ============ CABECERA ============ */
+    .site-header {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .flagbar {
+      height: 7px;
+      background: linear-gradient(90deg,
+        var(--azul) 0 33.33%, #fff 33.33% 66.66%, var(--azul) 66.66% 100%);
+      border-bottom: 1px solid rgba(6, 46, 125, .25);
+    }
+    :root[data-theme="dark"] .flagbar { background: linear-gradient(90deg, #2E6FE6 0 33.33%, #fff 33.33% 66.66%, #2E6FE6 66.66% 100%); }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 66px; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--azul-prof); }
+    .brand svg { width: 40px; height: 40px; flex: none; }
+    .brand b { font-family: "Fraunces", Georgia, serif; font-size: 1.45rem; font-weight: 700; letter-spacing: -.01em; line-height: 1; }
+    .brand small { display: block; font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-top: 3px; }
+    .nav { display: flex; align-items: center; gap: 6px; }
+    .nav a {
+      text-decoration: none; color: var(--ink); font-weight: 600; font-size: .95rem;
+      padding: 8px 14px; border-radius: 999px;
+    }
+    .nav a:hover { background: var(--tint); color: var(--azul); }
+    .theme-toggle {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 2px solid var(--line); background: var(--card);
+      padding: 7px 14px; border-radius: 999px; font-weight: 600; font-size: .9rem;
+    }
+    .theme-toggle:hover { border-color: var(--azul); }
+    .theme-toggle svg { width: 18px; height: 18px; }
+    .theme-toggle .i-sun { display: none; }
+    :root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
+    :root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
+
+    /* ============ HERO ============ */
+    .hero { position: relative; overflow: hidden; padding: 0 0 56px; }
+    .bunting { display: block; width: 100%; height: 54px; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; padding-top: 18px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--sol); color: #4a2f00;
+      font-weight: 800; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 999px; margin: 0 0 18px;
+    }
+    .eyebrow svg { width: 16px; height: 16px; }
+    h1 {
+      margin: 0 0 18px; font-family: "Fraunces", Georgia, serif;
+      font-weight: 700; line-height: 1.04; letter-spacing: -.02em;
+      font-size: clamp(2.5rem, 6.2vw, 4.6rem); color: var(--azul-prof);
+    }
+    h1 em {
+      font-style: italic; font-weight: 600;
+      background: linear-gradient(100deg, var(--coral), var(--sol) 55%, var(--verde));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      padding-right: .06em;
+    }
+    .lead { font-size: 1.2rem; color: var(--muted); max-width: 52ch; margin: 0 0 26px; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 30px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+      background: var(--azul); color: var(--on-azul); border: 2px solid var(--azul);
+      font-weight: 700; padding: 12px 22px; border-radius: 14px;
+      box-shadow: 0 8px 18px -8px color-mix(in srgb, var(--azul) 70%, transparent);
+      transition: transform .15s, box-shadow .15s, background-color .2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn.ghost { background: transparent; color: var(--azul); box-shadow: none; }
+    .btn.ghost:hover { background: var(--tint); }
+    .btn svg { width: 20px; height: 20px; }
+    .stats { display: flex; flex-wrap: wrap; gap: 14px; }
+    .stat {
+      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+      padding: 12px 18px; min-width: 112px; box-shadow: var(--shadow);
+    }
+    .stat b { display: block; font-family: "Fraunces", serif; font-size: 2rem; line-height: 1.1; color: var(--azul); }
+    .stat span { font-size: .82rem; color: var(--muted); font-weight: 600; }
+
+    .hero-art {
+      margin: 0; border-radius: 28px; overflow: hidden;
+      box-shadow: var(--shadow-hover); border: 4px solid var(--card);
+      transform: rotate(1.2deg); aspect-ratio: 560 / 470; background: #cfe9ff;
+    }
+    .hero-art svg { width: 100%; height: 100%; }
+    .float { animation: float 6s ease-in-out infinite; transform-origin: center; }
+    @keyframes float { 50% { transform: translateY(-5px); } }
+
+    /* ============ SECCIONES ============ */
+    .section { padding: 28px 0; }
+    .section-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+    .section-head h2 {
+      margin: 0; font-family: "Fraunces", serif; font-weight: 700;
+      font-size: clamp(1.6rem, 3.4vw, 2.2rem); color: var(--azul-prof); letter-spacing: -.01em;
+    }
+    .section-head svg { width: 44px; height: 44px; flex: none; }
+
+    /* DICHO DEL DÍA */
+    .daily {
+      position: relative; overflow: hidden; border-radius: 28px; padding: 34px 36px;
+      color: #fff; box-shadow: var(--shadow-hover);
+      background:
+        radial-gradient(circle at 92% 12%, rgba(255, 184, 28, .55), transparent 34%),
+        radial-gradient(circle at 8% 110%, rgba(63, 169, 245, .6), transparent 40%),
+        linear-gradient(135deg, #062E7D, #0A47B8 55%, #0E8BC9);
+    }
+    .daily::before {
+      content: ""; position: absolute; inset: 0; opacity: .12; pointer-events: none;
+      background: repeating-linear-gradient(135deg, #fff 0 2px, transparent 2px 18px);
+    }
+    .daily > * { position: relative; }
+    .daily-flower { position: absolute !important; right: -34px; bottom: -34px; width: 200px; height: 200px; opacity: .22; }
+    .daily .badge {
+      display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px;
+      background: var(--sol); color: #4a2f00; font-weight: 800; font-size: .78rem;
+      letter-spacing: .12em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px;
+    }
+    .daily blockquote {
+      margin: 0 0 12px; max-width: 30ch; font-family: "Fraunces", serif; font-style: italic;
+      font-weight: 600; font-size: clamp(1.7rem, 3.6vw, 2.7rem); line-height: 1.18;
+    }
+    .daily .meaning { max-width: 62ch; margin: 0 0 22px; font-size: 1.1rem; color: #fff; flex: none; }
+    .daily-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .daily .pill-btn {
+      display: inline-flex; align-items: center; gap: 8px; border: 2px solid rgba(255, 255, 255, .55);
+      background: rgba(255, 255, 255, .12); color: #fff; font-weight: 700; font-size: .95rem;
+      padding: 9px 16px; border-radius: 999px;
+    }
+    .daily .pill-btn:hover { background: rgba(255, 255, 255, .24); }
+    .daily .pill-btn svg { width: 18px; height: 18px; }
+    .daily .btn-audio { background: var(--sol); color: #4a2f00; border-color: var(--sol); }
+    .daily .btn-audio:hover { background: #ffc94a; }
+    .daily :focus-visible { outline-color: #fff; }
+
+    /* BUSCADOR / FILTROS */
+    .panel {
+      background: var(--card); border: 1px solid var(--line); border-radius: 24px;
+      padding: 22px; box-shadow: var(--shadow); display: grid; gap: 18px;
+    }
+    .search-label { display: block; font-weight: 700; font-size: .92rem; margin-bottom: 8px; }
+    .search-wrap { position: relative; }
+    .search-wrap svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; color: var(--muted); pointer-events: none; }
+    #search-input {
+      width: 100%; min-height: 56px; padding: 12px 52px 12px 50px; border-radius: 16px;
+      border: 2px solid var(--line); background: var(--bg); outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    #search-input:focus { border-color: var(--azul); box-shadow: 0 0 0 4px color-mix(in srgb, var(--azul) 20%, transparent); }
+    .kbd {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      font-size: .78rem; font-weight: 700; color: var(--muted); border: 1px solid var(--line);
+      border-bottom-width: 3px; border-radius: 7px; padding: 0 8px; background: var(--card);
+    }
+    #search-input:focus ~ .kbd, #search-input:not(:placeholder-shown) ~ .kbd { display: none; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip {
+      --c: var(--azul);
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 2px solid color-mix(in srgb, var(--c) 35%, var(--line));
+      background: var(--card); padding: 8px 14px 8px 10px; border-radius: 999px; font-weight: 700; font-size: .93rem;
+      transition: transform .15s, background-color .2s, color .2s, border-color .2s;
+    }
+    .chip svg { width: 24px; height: 24px; flex: none; }
+    .chip .n {
+      font-size: .78rem; background: color-mix(in srgb, var(--c) 16%, transparent);
+      padding: 1px 8px; border-radius: 999px; font-variant-numeric: tabular-nums;
+    }
+    .chip:hover { transform: translateY(-2px); border-color: var(--c); }
+    .chip[aria-pressed="true"] { background: var(--c); border-color: var(--c); color: #fff; }
+    .chip[aria-pressed="true"] .n { background: rgba(255, 255, 255, .28); }
+    .chip.fav { --c: var(--magenta); }
+    .chip.fav svg { color: var(--magenta); width: 20px; height: 20px; margin-left: 2px; }
+    .chip.fav[aria-pressed="true"] svg { color: #fff; }
+
+    .results-bar {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      margin: 26px 0 6px; padding-bottom: 10px; border-bottom: 2px dashed var(--line);
+    }
+    .results-bar h2 { margin: 0; font-family: "Fraunces", serif; font-size: 1.5rem; color: var(--azul-prof); }
+    #result-count {
+      font-weight: 800; color: var(--azul); background: var(--tint);
+      padding: 4px 14px; border-radius: 999px; font-variant-numeric: tabular-nums;
+    }
+
+    /* CATEGORÍAS */
+    .cat-section { margin-top: 34px; scroll-margin-top: 90px; }
+    .cat-intro {
+      --c: var(--azul);
+      display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: center;
+      border-radius: 22px; padding: 20px 24px; margin-bottom: 20px; position: relative; overflow: hidden;
+      background: color-mix(in srgb, var(--c) 11%, var(--card));
+      border: 2px solid color-mix(in srgb, var(--c) 32%, transparent);
+      border-left: 10px solid var(--c);
+    }
+    .cat-intro > svg { width: 66px; height: 66px; }
+    .cat-intro h3 {
+      margin: 0 0 4px; font-family: "Fraunces", serif; font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+      line-height: 1.2; color: color-mix(in srgb, var(--c) 78%, var(--ink));
+    }
+    .cat-intro p { margin: 0 0 4px; color: var(--muted); }
+    .cat-intro .geo { margin: 6px 0 0; color: var(--ink); font-weight: 600; font-size: .95rem; display: flex; gap: 8px; align-items: center; }
+    .cat-intro .geo svg { width: 18px; height: 18px; color: var(--c); flex: none; }
+
+    .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+
+    .card {
+      --c: var(--azul);
+      position: relative; display: flex; flex-direction: column; overflow: hidden;
+      background: var(--card); border: 1px solid var(--line); border-radius: 22px;
+      padding: 22px 24px 18px; box-shadow: var(--shadow);
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .card::before {
+      content: ""; position: absolute; inset: 0 0 auto 0; height: 7px;
+      background: linear-gradient(90deg, var(--c), color-mix(in srgb, var(--c) 40%, var(--sol)));
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: color-mix(in srgb, var(--c) 55%, var(--line)); }
+    .animate .card { animation: rise .45s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: var(--d, 0ms); }
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
+    .card.flash { animation: flash 2.2s ease; }
+    @keyframes flash { 0%, 60% { box-shadow: 0 0 0 5px var(--sol), var(--shadow-hover); } }
+    .card-top { display: flex; align-items: center; gap: 10px; margin: 6px 0 14px; }
+    .num {
+      display: grid; place-items: center; min-width: 40px; height: 40px; padding: 0 8px; border-radius: 12px;
+      background: var(--c); color: #fff; font-family: "Fraunces", serif; font-weight: 700; font-size: 1.05rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .tag {
+      font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--c) 78%, var(--ink));
+      background: color-mix(in srgb, var(--c) 13%, transparent); padding: 5px 11px; border-radius: 999px;
+    }
+    .card-icon { width: 46px; height: 46px; margin-left: auto; transition: transform .3s; }
+    .card:hover .card-icon { transform: rotate(-8deg) scale(1.1); }
+    .card blockquote { margin: 0 0 14px; }
+    .card blockquote p {
+      margin: 0; font-family: "Fraunces", Georgia, serif; font-style: italic; font-weight: 600;
+      font-size: 1.4rem; line-height: 1.32; color: var(--ink); text-wrap: balance;
+    }
+    .meaning { margin: 0 0 18px; color: var(--muted); font-size: 1rem; line-height: 1.55; flex: 1; }
+    .meaning .lbl {
+      display: block; font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--c) 78%, var(--ink)); margin-bottom: 3px;
+    }
+    mark { background: color-mix(in srgb, var(--sol) 65%, transparent); color: inherit; border-radius: 4px; padding: 0 2px; }
+    .actions { display: flex; align-items: center; gap: 8px; padding-top: 14px; border-top: 1px dashed var(--line); }
+
+    /* BOTÓN DE AUDIO */
+    .btn-audio {
+      --c: var(--azul);
+      display: inline-flex; align-items: center; gap: 9px; border: 0; border-radius: 999px;
+      background: var(--sol); color: #4a2f00; font-weight: 800; font-size: .92rem;
+      padding: 9px 18px 9px 14px; transition: transform .15s, filter .15s, background-color .2s;
+      box-shadow: 0 6px 14px -8px #b57d00;
+    }
+    .btn-audio:hover { transform: scale(1.04); filter: brightness(1.05); }
+    .btn-audio svg { width: 18px; height: 18px; fill: currentColor; }
+    .btn-audio .i-stop, .btn-audio .eq { display: none; }
+    .btn-audio[data-state="playing"] { background: var(--coral); color: #fff; box-shadow: 0 6px 14px -8px var(--coral); }
+    .btn-audio[data-state="playing"] .i-play, .btn-audio[data-state="loading"] .i-play { display: none; }
+    .btn-audio[data-state="playing"] .eq { display: inline-flex; }
+    .btn-audio[data-state="loading"] .i-play { display: none; }
+    .btn-audio[data-state="loading"]::before {
+      content: ""; width: 16px; height: 16px; border-radius: 50%;
+      border: 3px solid currentColor; border-right-color: transparent; animation: spin .7s linear infinite;
+    }
+    .btn-audio[data-state="error"] { background: #ddd; color: #555; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .eq { align-items: flex-end; gap: 3px; height: 16px; }
+    .eq i { width: 4px; background: currentColor; border-radius: 2px; animation: eq .8s ease-in-out infinite; height: 100%; transform-origin: bottom; }
+    .eq i:nth-child(2) { animation-delay: .2s; } .eq i:nth-child(3) { animation-delay: .4s; }
+    @keyframes eq { 0%, 100% { transform: scaleY(.3); } 50% { transform: scaleY(1); } }
+
+    .icon-btn {
+      display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+      border: 2px solid var(--line); background: var(--card); color: var(--muted);
+      transition: transform .15s, color .2s, border-color .2s, background-color .2s;
+    }
+    .icon-btn svg { width: 19px; height: 19px; }
+    .icon-btn:hover { color: var(--azul); border-color: var(--azul); transform: translateY(-2px); }
+    .icon-btn.fav[aria-pressed="true"] { color: #fff; background: var(--magenta); border-color: var(--magenta); }
+    .icon-btn.fav[aria-pressed="true"] svg { fill: currentColor; }
+    .icon-btn.fav:hover { color: var(--magenta); border-color: var(--magenta); }
+    .icon-btn.fav[aria-pressed="true"]:hover { color: #fff; }
+    .actions .spacer { flex: 1; }
+
+    /* ESTADOS */
+    .skeleton { height: 270px; border-radius: 22px; background: linear-gradient(90deg, var(--card) 25%, var(--tint) 50%, var(--card) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+    .empty {
+      grid-column: 1 / -1; text-align: center; padding: 54px 22px; border-radius: 24px;
+      border: 2px dashed var(--line); background: var(--card);
+    }
+    .empty svg { width: 84px; height: 84px; margin: 0 auto 10px; }
+    .empty h3 { margin: 0 0 8px; font-family: "Fraunces", serif; font-size: 1.6rem; color: var(--azul); }
+    .empty p { margin: 0 0 16px; color: var(--muted); }
+    .empty button { border: 2px solid var(--azul); background: transparent; color: var(--azul); font-weight: 700; padding: 9px 20px; border-radius: 999px; }
+    .empty button:hover { background: var(--tint); }
+
+    /* RETO */
+    .quiz {
+      border-radius: 28px; padding: 30px; box-shadow: var(--shadow);
+      background: linear-gradient(160deg, var(--card), color-mix(in srgb, var(--sol) 16%, var(--card)));
+      border: 1px solid var(--line);
+    }
+    .quiz-top { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .score { display: flex; gap: 10px; flex-wrap: wrap; }
+    .score span { background: var(--tint); color: var(--azul); font-weight: 800; padding: 5px 14px; border-radius: 999px; font-size: .9rem; }
+    .quiz-q { font-family: "Fraunces", serif; font-style: italic; font-weight: 600; font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.22; margin: 0 0 6px; color: var(--azul-prof); }
+    .quiz-sub { margin: 0 0 18px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .option {
+      text-align: left; border: 2px solid var(--line); background: var(--card); border-radius: 16px;
+      padding: 14px 16px; line-height: 1.45; transition: transform .15s, border-color .2s, background-color .2s;
+    }
+    .option:hover:not(:disabled) { border-color: var(--azul); transform: translateY(-2px); }
+    .option:disabled { cursor: default; }
+    .option.correct { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 16%, var(--card)); }
+    .option.wrong { border-color: var(--coral); background: color-mix(in srgb, var(--coral) 14%, var(--card)); }
+    .option.dim { opacity: .6; }
+    .quiz-foot { margin-top: 16px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; min-height: 48px; }
+    .feedback { font-weight: 700; }
+    .feedback.ok { color: var(--verde); } .feedback.no { color: var(--coral); }
+    .quiz .btn { cursor: pointer; }
+
+    /* PIE */
+    .site-footer { margin-top: 56px; color: #fff; position: relative; background: linear-gradient(135deg, #062E7D, #0A47B8); }
+    .site-footer .flagbar { background: linear-gradient(90deg, #fff 0 33.33%, var(--sol) 33.33% 66.66%, #fff 66.66% 100%); border: 0; height: 6px; }
+    .footer-inner { display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: center; justify-content: space-between; padding: 36px 0; }
+    .footer-inner p { margin: 0; max-width: 54ch; opacity: .92; }
+    .footer-inner strong { font-family: "Fraunces", serif; font-size: 1.5rem; display: block; margin-bottom: 4px; }
+    .symbols { display: flex; gap: 14px; }
+    .symbols svg { width: 54px; height: 54px; background: rgba(255, 255, 255, .14); border-radius: 16px; padding: 7px; }
+
+    .to-top {
+      position: fixed; right: 18px; bottom: 18px; z-index: 40; width: 48px; height: 48px; border-radius: 50%;
+      border: 0; background: var(--azul); color: var(--on-azul); box-shadow: var(--shadow-hover);
+      display: grid; place-items: center; opacity: 0; pointer-events: none; transform: translateY(10px); transition: .25s;
+    }
+    .to-top.show { opacity: 1; pointer-events: auto; transform: none; }
+    .to-top svg { width: 22px; height: 22px; }
+    .toast {
+      position: fixed; left: 50%; bottom: 24px; z-index: 60; transform: translate(-50%, 30px); opacity: 0;
+      background: var(--ink); color: var(--bg); padding: 12px 20px; border-radius: 14px; font-weight: 600;
+      box-shadow: var(--shadow-hover); max-width: min(92vw, 520px); text-align: center; pointer-events: none; transition: .3s;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 26px; }
+      .hero-art { transform: none; max-width: 560px; }
+      .nav a { display: none; }
+    }
+    @media (max-width: 720px) {
+      .cards, .options { grid-template-columns: 1fr; }
+      .daily { padding: 26px 22px; }
+      .cat-intro { grid-template-columns: 1fr; gap: 10px; }
+      .cat-intro > svg { width: 52px; height: 52px; }
+      .card blockquote p { font-size: 1.28rem; }
+      .quiz { padding: 22px 18px; }
+      .theme-toggle span { display: none; }
+      .brand small { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+    @media print {
+      .site-header, .hero-art, .panel, .actions, .to-top, .quiz, .bunting, .daily-flower { display: none !important; }
+      .card { break-inside: avoid; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ SÍMBOLOS NICAS (SVG reutilizables) ============ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- Sacuanjoche (flor nacional) -->
+      <symbol id="i-sacuanjoche" viewBox="0 0 100 100">
+        <g>
+          <ellipse cx="50" cy="26" rx="13" ry="25" fill="#FFF6DA" stroke="#F3C969" stroke-width="1.5" transform="rotate(0 50 50)"/>
+          <ellipse cx="50" cy="26" rx="13" ry="25" fill="#FFF6DA" stroke="#F3C969" stroke-width="1.5" transform="rotate(72 50 50)"/>
+          <ellipse cx="50" cy="26" rx="13" ry="25" fill="#FFF6DA" stroke="#F3C969" stroke-width="1.5" transform="rotate(144 50 50)"/>
+          <ellipse cx="50" cy="26" rx="13" ry="25" fill="#FFF6DA" stroke="#F3C969" stroke-width="1.5" transform="rotate(216 50 50)"/>
+          <ellipse cx="50" cy="26" rx="13" ry="25" fill="#FFF6DA" stroke="#F3C969" stroke-width="1.5" transform="rotate(288 50 50)"/>
+          <circle cx="50" cy="50" r="14" fill="#FFC21A"/>
+          <circle cx="50" cy="50" r="7" fill="#F08A00"/>
+        </g>
+      </symbol>
+
+      <!-- Volcán -->
+      <symbol id="i-volcan" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="48" fill="#BFE6FF"/>
+        <path d="M2 78 Q50 70 98 78 A48 48 0 0 1 2 78Z" fill="#2F9BD8"/>
+        <path d="M14 82 L44 30 Q50 24 56 30 L86 82Z" fill="#3A4A7A"/>
+        <path d="M44 30 Q50 24 56 30 L58 36 Q50 40 42 36Z" fill="#FF6B35"/>
+        <path d="M49 36 L45 58 L51 52 L50 68 L55 46Z" fill="#FFB81C"/>
+        <circle cx="52" cy="17" r="7" fill="#fff" opacity=".9"/><circle cx="60" cy="12" r="5" fill="#fff" opacity=".8"/>
+        <circle cx="42" cy="14" r="4.5" fill="#fff" opacity=".8"/>
+      </symbol>
+
+      <!-- Máscara del Güegüense -->
+      <symbol id="i-mascara" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="48" fill="#FFE3A3"/>
+        <path d="M20 38 L50 6 L80 38 Q50 30 20 38Z" fill="#D12F2F" stroke="#7A1010" stroke-width="2"/>
+        <path d="M20 38 Q50 30 80 38" fill="none" stroke="#FFB81C" stroke-width="4"/>
+        <circle cx="50" cy="9" r="5" fill="#FFB81C"/>
+        <ellipse cx="50" cy="58" rx="25" ry="29" fill="#F3B183" stroke="#8A4B24" stroke-width="2"/>
+        <circle cx="33" cy="62" r="6" fill="#E8603C" opacity=".75"/><circle cx="67" cy="62" r="6" fill="#E8603C" opacity=".75"/>
+        <path d="M33 50 q6 -6 12 0 M55 50 q6 -6 12 0" stroke="#2B1608" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <path d="M46 54 L50 62 L54 54" stroke="#8A4B24" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M30 70 Q50 64 70 70 Q60 76 50 72 Q40 76 30 70Z" fill="#2B1608"/>
+        <path d="M44 78 Q50 96 56 78 Q50 82 44 78Z" fill="#2B1608"/>
+        <path d="M44 74 Q50 79 56 74" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </symbol>
+
+      <!-- Balanza -->
+      <symbol id="i-balanza" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="48" fill="#FFD6E4"/>
+        <rect x="47" y="20" width="6" height="56" rx="2" fill="#7A3A12"/>
+        <rect x="30" y="74" width="40" height="7" rx="3" fill="#7A3A12"/>
+        <rect x="18" y="26" width="64" height="5" rx="2.5" fill="#B5651D"/>
+        <circle cx="50" cy="20" r="6" fill="#FFB81C"/>
+        <path d="M24 31 L14 54 M24 31 L34 54" stroke="#7A3A12" stroke-width="2" fill="none"/>
+        <path d="M76 31 L66 54 M76 31 L86 54" stroke="#7A3A12" stroke-width="2" fill="none"/>
+        <path d="M10 54 H38 Q36 66 24 66 Q12 66 10 54Z" fill="#FFB81C" stroke="#B57D00" stroke-width="2"/>
+        <path d="M62 54 H90 Q88 66 76 66 Q64 66 62 54Z" fill="#FFB81C" stroke="#B57D00" stroke-width="2"/>
+      </symbol>
+
+      <!-- Guardabarranco (ave nacional) -->
+      <symbol id="i-guardabarranco" viewBox="0 0 200 200">
+        <path d="M122 112 C146 140 150 168 156 190" stroke="#1D8FB8" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <path d="M116 114 C126 142 124 168 126 192" stroke="#1D8FB8" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="157" cy="190" rx="7" ry="11" fill="#17A9D6" stroke="#0B3E7A" stroke-width="2" transform="rotate(8 157 190)"/>
+        <ellipse cx="126" cy="193" rx="7" ry="11" fill="#17A9D6" stroke="#0B3E7A" stroke-width="2"/>
+        <path d="M70 70 C72 112 108 130 134 118 C138 92 112 62 70 70Z" fill="#23A55A"/>
+        <path d="M82 100 C90 124 112 128 128 118 C118 108 100 100 82 100Z" fill="#7FD69A" opacity=".55"/>
+        <path d="M70 78 C66 106 82 124 102 126 C96 110 88 92 70 78Z" fill="#E98A3B"/>
+        <circle cx="66" cy="60" r="23" fill="#2EB36A"/>
+        <path d="M46 52 C52 32 80 30 90 50 C74 42 58 44 46 52Z" fill="#19B6E8"/>
+        <path d="M44 62 C54 56 70 56 82 62 C80 70 70 72 62 70 C54 70 48 68 44 62Z" fill="#0F1F33"/>
+        <circle cx="62" cy="62" r="4.5" fill="#fff"/><circle cx="62.5" cy="62.5" r="2.2" fill="#0F1F33"/>
+        <path d="M46 64 C30 66 20 74 14 86 C30 80 42 78 48 74Z" fill="#26323F"/>
+        <path d="M70 84 L70 94 L66 100 L74 100 L76 94 L76 86Z" fill="#26323F"/>
+        <path d="M60 90 C62 100 64 104 62 110" stroke="#0F1F33" stroke-width="5" stroke-linecap="round" fill="none" opacity=".0"/>
+      </symbol>
+
+      <!-- Escudo / emblema simplificado -->
+      <symbol id="i-escudo" viewBox="0 0 100 100">
+        <path d="M50 5 L96 90 H4Z" fill="#fff" stroke="#0A47B8" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M50 14 L88 85 H12Z" fill="#8ED1FF"/>
+        <path d="M12 85 L88 85 L80 70 Q50 78 20 70Z" fill="#1D7BD0"/>
+        <path d="M24 66 L33 48 L42 66Z M38 66 L48 42 L58 66Z M54 66 L64 46 L73 66Z" fill="#2E8B57"/>
+        <path d="M30 52 A22 22 0 0 1 70 52" stroke="#E53935" stroke-width="3" fill="none"/>
+        <path d="M33 53 A19 19 0 0 1 67 53" stroke="#FFB81C" stroke-width="3" fill="none"/>
+        <path d="M36 54 A16 16 0 0 1 64 54" stroke="#43A047" stroke-width="3" fill="none"/>
+        <path d="M39 55 A13 13 0 0 1 61 55" stroke="#5B6CFF" stroke-width="3" fill="none"/>
+        <path d="M44 30 Q50 18 56 30 Q50 34 44 30Z" fill="#E53935"/>
+        <circle cx="50" cy="34" r="4" fill="#FFB81C"/>
+      </symbol>
+
+      <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.5-9.2C1 8.2 3.2 5 6.4 5c2 0 3.6 1.1 4.6 2.7h2C14 6.1 15.600 5 17.600 5 20.800 5 23 8.200 21.500 11.800 19.500 16.400 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2.500" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 22s7-6.200 7-12a7 7 0 0 0-14 0c0 5.800 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.500" fill="currentColor"/></symbol>
+      <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ============ CABECERA ============ -->
+  <header class="site-header">
+    <div class="flagbar" aria-hidden="true"></div>
+    <div class="wrap header-inner">
+      <a class="brand" href="#inicio" aria-label="Palabra Nica, inicio">
+        <svg aria-hidden="true"><use href="#i-escudo"/></svg>
+        <span><b>Palabra Nica</b><small>Refranero popular</small></span>
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#dia">Dicho del día</a>
+        <a href="#refranes">Refranes</a>
+        <a href="#reto">Reto</a>
+        <button class="theme-toggle" id="btn-theme" type="button" aria-label="Cambiar entre modo claro y oscuro">
+          <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.800A9 9 0 1 1 11.200 3a7 7 0 0 0 9.800 9.800z"/></svg>
+          <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.900 4.900l1.400 1.400M17.700 17.700l1.400 1.400M2 12h2M20 12h2M4.900 19.100l1.400-1.400M17.700 6.300l1.400-1.400"/></svg>
+          <span>Modo</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <!-- Banderines de fiesta patronal -->
+      <svg class="bunting" viewBox="0 0 1200 54" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <pattern id="banderin" width="150" height="54" patternUnits="userSpaceOnUse">
+            <path d="M0 4 Q75 24 150 4" stroke="#8A6D3B" stroke-width="2" fill="none"/>
+            <path d="M6 9 L26 12 L14 40Z" fill="#0A47B8"/>
+            <path d="M32 13 L52 15 L40 42Z" fill="#fff" stroke="#9BB9E8" stroke-width="1"/>
+            <path d="M58 16 L78 17 L67 44Z" fill="#FFB81C"/>
+            <path d="M84 17 L104 16 L93 44Z" fill="#F0533C"/>
+            <path d="M110 15 L130 12 L119 41Z" fill="#12A150"/>
+            <path d="M134 12 L150 9 L141 36Z" fill="#D6336C"/>
+          </pattern>
+        </defs>
+        <rect width="1200" height="54" fill="url(#banderin)"/>
+      </svg>
+
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><svg aria-hidden="true"><use href="#i-sacuanjoche"/></svg> Tradición oral de Nicaragua</p>
+          <h1>Dichos que cuentan <em>cómo somos.</em></h1>
+          <p class="lead">Cien refranes y expresiones del habla nicaragüense, con su significado, su audio y mucha picardía. Buscá, escuchá, guardá tus favoritos y poné a prueba qué tanto los conocés.</p>
+          <div class="hero-cta">
+            <a class="btn" href="#refranes">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.500-3.500"/></svg>
+              Explorar los refranes
+            </a>
+            <a class="btn ghost" href="#reto">Jugar el reto</a>
+          </div>
+          <div class="stats" aria-label="Datos del refranero">
+            <div class="stat"><b id="stat-total">100</b><span>dichos</span></div>
+            <div class="stat"><b>5</b><span>categorías</span></div>
+            <div class="stat"><b id="stat-favs">0</b><span>favoritos</span></div>
+          </div>
+        </div>
+
+        <!-- Postal ilustrada: volcán, lago, arcoíris, sol, guardabarranco y sacuanjoche -->
+        <figure class="hero-art" aria-label="Ilustración de un paisaje nicaragüense con volcán, guardabarranco y sacuanjoche">
+          <svg viewBox="0 0 560 470" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true">
+            <defs>
+              <linearGradient id="cielo" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#2E8FE8"/><stop offset=".55" stop-color="#9AD7FF"/><stop offset="1" stop-color="#FFE9A8"/>
+              </linearGradient>
+              <linearGradient id="lago" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#2FA7E8"/><stop offset="1" stop-color="#0A47B8"/>
+              </linearGradient>
+              <linearGradient id="volcan" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#4A5A92"/><stop offset="1" stop-color="#26356E"/>
+              </linearGradient>
+            </defs>
+            <rect width="560" height="470" fill="url(#cielo)"/>
+            <!-- sol con rayos -->
+            <g class="float">
+              <circle cx="108" cy="112" r="60" fill="none" stroke="#FFB81C" stroke-width="22" stroke-dasharray="6 12.9" opacity=".85"/>
+              <circle cx="108" cy="112" r="40" fill="#FFD23F"/>
+              <circle cx="108" cy="112" r="40" fill="none" stroke="#FFF3B0" stroke-width="4"/>
+            </g>
+            <!-- arcoíris -->
+            <g fill="none" stroke-width="9" opacity=".9">
+              <path d="M130 330 A170 170 0 0 1 470 330" stroke="#E53935"/>
+              <path d="M139 330 A161 161 0 0 1 461 330" stroke="#FB8C00"/>
+              <path d="M148 330 A152 152 0 0 1 452 330" stroke="#FFD23F"/>
+              <path d="M157 330 A143 143 0 0 1 443 330" stroke="#43A047"/>
+              <path d="M166 330 A134 134 0 0 1 434 330" stroke="#1E88E5"/>
+              <path d="M175 330 A125 125 0 0 1 425 330" stroke="#7E57C2"/>
+            </g>
+            <!-- nubes -->
+            <g fill="#fff" opacity=".92">
+              <ellipse cx="420" cy="70" rx="46" ry="14"/><ellipse cx="446" cy="60" rx="30" ry="14"/><ellipse cx="400" cy="62" rx="26" ry="12"/>
+              <ellipse cx="250" cy="48" rx="34" ry="10"/><ellipse cx="270" cy="42" rx="22" ry="10"/>
+            </g>
+            <!-- volcán principal y volcán pequeño -->
+            <path d="M330 340 L392 176 Q404 158 416 176 L500 340Z" fill="#33437F"/>
+            <path d="M205 342 L255 255 Q262 244 270 255 L330 342Z" fill="url(#volcan)"/>
+            <path d="M246 292 L262 258 L276 290Z" fill="#3B4C8E"/>
+            <path d="M286 340 L374 196 Q392 164 410 196 L490 340Z" fill="url(#volcan)"/>
+            <path d="M386 178 Q392 166 398 178 L402 188 Q392 194 382 188Z" fill="#FF6B35"/>
+            <path d="M392 188 L386 226 L396 214 L394 250 L404 206Z" fill="#FFB81C"/>
+            <path d="M360 238 L372 262 L350 270Z" fill="#26356E" opacity=".5"/>
+            <g fill="#fff" opacity=".92" class="float">
+              <circle cx="394" cy="150" r="13"/><circle cx="412" cy="136" r="16"/><circle cx="432" cy="122" r="13"/><circle cx="380" cy="132" r="10"/>
+            </g>
+            <!-- lago -->
+            <rect y="338" width="560" height="132" fill="url(#lago)"/>
+            <g stroke="#CFEBFF" stroke-width="2.500" stroke-linecap="round" fill="none" opacity=".7">
+              <path d="M300 356 q10 -6 20 0 t20 0"/><path d="M420 372 q10 -6 20 0 t20 0"/><path d="M340 392 q10 -6 20 0 t20 0"/>
+              <path d="M470 402 q10 -6 20 0 t20 0"/><path d="M250 412 q10 -6 20 0 t20 0"/>
+            </g>
+            <path d="M360 340 L392 340 L402 420 L350 420Z" fill="#FFD23F" opacity=".14"/>
+            <!-- orilla verde -->
+            <path d="M0 360 Q120 322 250 380 Q330 410 360 470 H0Z" fill="#12A150"/>
+            <path d="M0 392 Q110 360 220 414 Q280 440 300 470 H0Z" fill="#0B8240"/>
+            <!-- rama + guardabarranco -->
+            <path d="M-10 262 Q90 252 210 268" stroke="#6B3E1C" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M120 258 q10 -22 28 -26 M60 258 q-4 -18 12 -28" stroke="#6B3E1C" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <g fill="#2FBF71"><ellipse cx="152" cy="232" rx="14" ry="7" transform="rotate(-30 152 232)"/><ellipse cx="72" cy="230" rx="14" ry="7" transform="rotate(30 72 230)"/><ellipse cx="190" cy="262" rx="14" ry="6" transform="rotate(20 190 262)"/></g>
+            <use href="#i-guardabarranco" x="62" y="108" width="190" height="190" class="float"/>
+            <!-- sacuanjoche en primer plano -->
+            <g stroke="#0B8240" stroke-width="5" fill="none" stroke-linecap="round">
+              <path d="M450 470 Q440 430 420 400"/><path d="M520 470 Q512 440 530 410"/><path d="M380 470 Q386 440 372 420"/>
+            </g>
+            <use href="#i-sacuanjoche" x="378" y="352" width="86" height="86"/>
+            <use href="#i-sacuanjoche" x="490" y="366" width="70" height="70"/>
+            <use href="#i-sacuanjoche" x="336" y="402" width="56" height="56"/>
+            <g fill="#0B8240"><ellipse cx="436" cy="440" rx="24" ry="8" transform="rotate(-25 436 440)"/><ellipse cx="500" cy="446" rx="22" ry="7" transform="rotate(25 500 446)"/></g>
+          </svg>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ DICHO DEL DÍA ============ -->
+    <section class="section" id="dia" aria-labelledby="dia-titulo">
+      <div class="wrap">
+        <div class="daily" id="daily" hidden>
+          <svg class="daily-flower" aria-hidden="true"><use href="#i-sacuanjoche"/></svg>
+          <span class="badge"><svg width="16" height="16" aria-hidden="true"><use href="#i-sacuanjoche"/></svg> <span id="dia-titulo">El dicho de hoy</span></span>
+          <blockquote id="dia-texto" aria-live="polite"></blockquote>
+          <p class="meaning" id="dia-significado"></p>
+          <div class="daily-actions">
+            <button type="button" class="btn-audio" id="dia-audio" data-act="audio" data-state="idle"></button>
+            <button type="button" class="pill-btn" id="dia-otro"><svg aria-hidden="true"><use href="#i-shuffle"/></svg> Otro dicho</button>
+            <button type="button" class="pill-btn" id="dia-copiar"><svg aria-hidden="true"><use href="#i-copy"/></svg> Copiar</button>
+            <a class="pill-btn" id="dia-ver" href="#refranes" style="text-decoration:none"><svg aria-hidden="true"><use href="#i-pin"/></svg> Ver en la lista</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPLORADOR ============ -->
+    <section class="section" id="refranes" aria-labelledby="refranes-titulo">
+      <div class="wrap">
+        <div class="section-head">
+          <svg aria-hidden="true"><use href="#i-mascara"/></svg>
+          <h2 id="refranes-titulo">El refranero completo</h2>
+        </div>
+
+        <div class="panel">
+          <div>
+            <label class="search-label" for="search-input">Buscá un refrán por palabra o por significado</label>
+            <div class="search-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.500-3.500"/></svg>
+              <input id="search-input" type="search" placeholder="Ej. chancho, pinol, lora, paciencia…" autocomplete="off" spellcheck="false">
+              <span class="kbd" aria-hidden="true">/</span>
+            </div>
+          </div>
+          <div>
+            <span class="search-label" id="filtro-label">Filtrá por categoría</span>
+            <div class="chips" id="chips" role="group" aria-labelledby="filtro-label"></div>
+          </div>
+        </div>
+
+        <div class="results-bar">
+          <h2>Resultados</h2>
+          <span id="result-count" role="status" aria-live="polite">…</span>
+        </div>
+
+        <div id="lista" aria-busy="true">
+          <div class="cards">
+            <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RETO ============ -->
+    <section class="section" id="reto" aria-labelledby="reto-titulo">
+      <div class="wrap">
+        <div class="section-head">
+          <svg aria-hidden="true"><use href="#i-guardabarranco"/></svg>
+          <h2 id="reto-titulo">Reto: ¿qué significa?</h2>
+        </div>
+        <div class="quiz" id="quiz" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="flagbar" aria-hidden="true"></div>
+    <div class="wrap footer-inner">
+      <p><strong>Palabra Nica</strong>Hecho para no olvidar las raíces de la palabra nicaragüense. Los refranes pertenecen a la tradición oral popular; la procedencia geográfica exacta de cada uno no está indicada.</p>
+      <div class="symbols" aria-label="Símbolos de Nicaragua">
+        <svg aria-label="Sacuanjoche, flor nacional"><use href="#i-sacuanjoche"/></svg>
+        <svg aria-label="Guardabarranco, ave nacional"><use href="#i-guardabarranco"/></svg>
+        <svg aria-label="Volcán"><use href="#i-volcan"/></svg>
+        <svg aria-label="Máscara del Güegüense"><use href="#i-mascara"/></svg>
+      </div>
+    </div>
+  </footer>
+
+  <button class="to-top" id="to-top" type="button" aria-label="Volver arriba">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.500" stroke-linecap="round" stroke-linejoin="round"><path d="m5 15 7-7 7 7"/></svg>
+  </button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Copia de respaldo de los datos (solo se usa si no se puede leer refranes.json, p. ej. al abrir con doble clic) -->
+  <script src="refranes.js"></script>
+  <script>
+  (() => {
+    "use strict";
+
+    /* ---------- Categorías (textos del documento "refranes (1)") ---------- */
+    const PROCEDENCIA = "Nicaragua; departamento específico no indicado.";
+    const CATEGORIAS = [
+      { key: "Identidad", n: 1, icon: "i-sacuanjoche", color: "#1D5FD1", corta: "Identidad",
+        titulo: "Identidad cultural y expresiones populares",
+        desc: "Son expresiones características del habla nicaragüense, relacionadas con las costumbres, los lugares y la manera de comunicarse." },
+      { key: "Humor", n: 2, icon: "i-mascara", color: "#E8590C", corta: "Humor",
+        titulo: "Humor, picardía y sarcasmo popular",
+        desc: "Son expresiones utilizadas para bromear, hacer comentarios ingeniosos o referirse de manera graciosa a determinadas situaciones." },
+      { key: "Consecuencias", n: 3, icon: "i-balanza", color: "#D6336C", corta: "Consecuencias",
+        titulo: "Consecuencias, comportamiento y relaciones humanas",
+        desc: "Estos refranes transmiten enseñanzas sobre el comportamiento, las amistades, las decisiones y las consecuencias de nuestros actos." },
+      { key: "Esfuerzo", n: 4, icon: "i-volcan", color: "#12A150", corta: "Esfuerzo",
+        titulo: "Esfuerzo, trabajo y perseverancia",
+        desc: "Estos refranes resaltan la importancia de trabajar, ser constantes, aprovechar las oportunidades y mantener la paciencia." },
+      { key: "Sabiduría", n: 5, icon: "i-guardabarranco", color: "#0E9AA7", corta: "Sabiduría",
+        titulo: "Sabiduría popular, prudencia y experiencias de vida",
+        desc: "Son refranes que transmiten conocimientos adquiridos mediante las experiencias y reflexiones de las personas." }
+    ];
+    const CAT = Object.fromEntries(CATEGORIAS.map(c => [c.key, c]));
+
+    const ERRORES = [
+      "¡Ideay, te fuiste en la de a caite!",
+      "¡Buscaste como la novia de Tola!",
+      "¡Qué barbaridad, no hay nada de eso!",
+      "Mejor echame ese trompo en la uña, porque no lo hallé."
+    ];
+
+    /* ---------- Utilidades ---------- */
+    const $ = (s, el = document) => el.querySelector(s);
+    const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    /* Quita tildes carácter por carácter (mantiene la longitud para poder resaltar) */
+    const fold = s => Array.from(s).map(c => c.normalize("NFD")[0]).join("").toLowerCase();
+    const store = {
+      get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+      set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+    };
+    const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+    let toastTimer;
+    function toast(msg) {
+      const t = $("#toast");
+      t.textContent = msg; t.classList.add("show");
+      clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2800);
+    }
+    async function copiar(texto, aviso) {
+      try { await navigator.clipboard.writeText(texto); }
+      catch {
+        const ta = document.createElement("textarea");
+        ta.value = texto; ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); } catch {}
+        ta.remove();
+      }
+      toast(aviso);
+    }
+
+    /* ---------- Estado ---------- */
+    let refranes = [];
+    let favs = new Set(store.get("palabra-nica-favs", []));
+    const estado = { cat: "Todas", q: "", soloFavs: false };
+    const porId = id => refranes.find(r => r.id === id);
+
+    /* ---------- Tema ---------- */
+    $("#btn-theme").addEventListener("click", () => {
+      const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      store.set("palabra-nica-tema", next);
+      $('meta[name="theme-color"]').content = next === "dark" ? "#0A1230" : "#0A47B8";
+    });
+
+    /* ---------- Audio ---------- */
+    const SVG_AUDIO = `<svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ab-label">Escuchar</span>`;
+    const ETIQUETAS = { idle: "Escuchar", loading: "Cargando…", playing: "Detener", error: "Sin audio" };
+    const player = new Audio();
+    player.preload = "none";
+    let actual = null;      // id del refrán que suena
+    let token = 0;          // invalida eventos de reproducciones anteriores
+    let avisoVozMostrado = false;
+
+    function setAudioState(id, state) {
+      $$(`[data-audio="${id}"], #dia-audio[data-audio="${id}"]`).forEach(b => {
+        b.dataset.state = state;
+        const l = $(".ab-label", b); if (l) l.textContent = ETIQUETAS[state];
+        b.setAttribute("aria-label", `${state === "playing" ? "Detener" : "Escuchar"} refrán ${id}`);
+      });
+    }
+    function detener() {
+      token++;
+      player.pause();
+      if ("speechSynthesis" in window) speechSynthesis.cancel();
+      if (actual !== null) setAudioState(actual, "idle");
+      actual = null;
+    }
+    function hablar(r, mi) {
+      if (!("speechSynthesis" in window)) { setAudioState(r.id, "error"); setTimeout(() => { if (mi === token) detener(); }, 1800); return; }
+      const u = new SpeechSynthesisUtterance(`${r.texto.replace(/[¡!¿?]/g, "")}`);
+      const voces = speechSynthesis.getVoices();
+      const voz = voces.find(v => /^es[-_]NI/i.test(v.lang)) || voces.find(v => /^es[-_](MX|419|US)/i.test(v.lang)) || voces.find(v => /^es/i.test(v.lang));
+      if (voz) { u.voice = voz; u.lang = voz.lang; } else u.lang = "es-MX";
+      u.rate = .92;
+      u.onstart = () => { if (mi === token) setAudioState(r.id, "playing"); };
+      u.onend = u.onerror = () => { if (mi === token) { setAudioState(r.id, "idle"); actual = null; } };
+      speechSynthesis.speak(u);
+      if (!avisoVozMostrado) { avisoVozMostrado = true; toast("Aún no hay grabación de este dicho: suena la voz del navegador. Agregá el .mp3 en la carpeta audios."); }
+    }
+    function alternarAudio(id) {
+      if (actual === id) { detener(); return; }
+      detener();
+      const r = porId(id); if (!r) return;
+      const mi = token; actual = id;
+      setAudioState(id, "loading");
+      player.onended = () => { if (mi === token) { setAudioState(id, "idle"); actual = null; } };
+      player.src = r.audio || `audios/refran-${String(id).padStart(3, "0")}.mp3`;
+      player.play().then(() => { if (mi === token) setAudioState(id, "playing"); })
+        .catch(() => { if (mi === token) hablar(r, mi); });
+    }
+
+    /* ---------- Tarjetas ---------- */
+    function resaltar(texto, terminos) {
+      if (!terminos.length) return esc(texto);
+      const f = fold(texto), rangos = [];
+      terminos.forEach(t => { let i = f.indexOf(t); while (i !== -1) { rangos.push([i, i + t.length]); i = f.indexOf(t, i + t.length); } });
+      if (!rangos.length) return esc(texto);
+      rangos.sort((a, b) => a[0] - b[0]);
+      const fus = [rangos[0].slice()];
+      rangos.slice(1).forEach(r => { const u = fus[fus.length - 1]; if (r[0] <= u[1]) u[1] = Math.max(u[1], r[1]); else fus.push(r.slice()); });
+      let out = "", pos = 0;
+      fus.forEach(([a, b]) => { out += esc(texto.slice(pos, a)) + "<mark>" + esc(texto.slice(a, b)) + "</mark>"; pos = b; });
+      return out + esc(texto.slice(pos));
+    }
+
+    function tarjeta(r, terminos, i) {
+      const c = CAT[r.categoria] || CATEGORIAS[0];
+      const fav = favs.has(r.id);
+      return `
+      <article class="card" id="refran-${r.id}" data-id="${r.id}" style="--c:${c.color};--d:${Math.min(i, 8) * 45}ms">
+        <div class="card-top">
+          <span class="num" title="Refrán número ${r.id}">${r.id}</span>
+          <span class="tag">${esc(c.corta)}</span>
+          <svg class="card-icon" aria-hidden="true"><use href="#${c.icon}"/></svg>
+        </div>
+        <blockquote><p>“${resaltar(r.texto, terminos)}”</p></blockquote>
+        <p class="meaning"><span class="lbl">Significado</span>${resaltar(r.significado, terminos)}</p>
+        <div class="actions">
+          <button type="button" class="btn-audio" data-act="audio" data-audio="${r.id}" data-state="${actual === r.id ? "playing" : "idle"}" aria-label="Escuchar refrán ${r.id}">${SVG_AUDIO}</button>
+          <span class="spacer"></span>
+          <button type="button" class="icon-btn fav" data-act="fav" aria-pressed="${fav}" aria-label="Guardar en favoritos" title="Favorito"><svg aria-hidden="true"><use href="#i-heart"/></svg></button>
+          <button type="button" class="icon-btn" data-act="copy" aria-label="Copiar refrán" title="Copiar"><svg aria-hidden="true"><use href="#i-copy"/></svg></button>
+          <button type="button" class="icon-btn" data-act="link" aria-label="Copiar enlace a este refrán" title="Copiar enlace"><svg aria-hidden="true"><use href="#i-link"/></svg></button>
+        </div>
+      </article>`;
+    }
+
+    /* ---------- Filtros y render ---------- */
+    function terminosBusqueda() { return fold(estado.q.trim()).split(/\s+/).filter(Boolean); }
+    function coincideTexto(r, t) { return t.every(x => r._f.includes(x)); }
+
+    function pintarChips() {
+      const t = terminosBusqueda();
+      const base = refranes.filter(r => coincideTexto(r, t) && (!estado.soloFavs || favs.has(r.id)));
+      const total = base.length;
+      const html = [`<button type="button" class="chip" data-cat="Todas" aria-pressed="${estado.cat === "Todas"}" style="--c:#0A47B8">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-escudo"/></svg>Todas <span class="n">${total}</span></button>`];
+      CATEGORIAS.forEach(c => {
+        const n = base.filter(r => r.categoria === c.key).length;
+        html.push(`<button type="button" class="chip" data-cat="${c.key}" aria-pressed="${estado.cat === c.key}" style="--c:${c.color}">
+          <svg aria-hidden="true"><use href="#${c.icon}"/></svg>${c.corta} <span class="n">${n}</span></button>`);
+      });
+      html.push(`<button type="button" class="chip fav" id="chip-fav" aria-pressed="${estado.soloFavs}">
+          <svg aria-hidden="true"><use href="#i-heart"/></svg>Mis favoritos <span class="n">${favs.size}</span></button>`);
+      $("#chips").innerHTML = html.join("");
+    }
+
+    function render(animar = false) {
+      const terminos = terminosBusqueda();
+      const lista = refranes.filter(r =>
+        (estado.cat === "Todas" || r.categoria === estado.cat) &&
+        (!estado.soloFavs || favs.has(r.id)) && coincideTexto(r, terminos));
+
+      $("#result-count").textContent = `${lista.length} dicho${lista.length === 1 ? "" : "s"}`;
+      $("#stat-favs").textContent = favs.size;
+      pintarChips();
+      const cont = $("#lista");
+      cont.setAttribute("aria-busy", "false");
+      cont.classList.toggle("animate", animar);
+
+      if (!lista.length) {
+        const msg = estado.soloFavs && !estado.q && estado.cat === "Todas"
+          ? ["Todavía no tenés favoritos", "Tocá el corazón de un refrán para guardarlo aquí."]
+          : [ERRORES[Math.floor(Math.random() * ERRORES.length)], "Probá con otra palabra o cambiá la categoría."];
+        cont.innerHTML = `<div class="cards"><div class="empty">
+            <svg aria-hidden="true"><use href="#i-mascara"/></svg>
+            <h3>${esc(msg[0])}</h3><p>${esc(msg[1])}</p>
+            <button type="button" data-act="reset">Ver todos los refranes</button></div></div>`;
+        return;
+      }
+
+      let i = 0;
+      cont.innerHTML = CATEGORIAS.map(c => {
+        const items = lista.filter(r => r.categoria === c.key);
+        if (!items.length) return "";
+        return `
+        <section class="cat-section" id="categoria-${c.n}" aria-labelledby="cat-t-${c.n}">
+          <div class="cat-intro" style="--c:${c.color}">
+            <svg aria-hidden="true"><use href="#${c.icon}"/></svg>
+            <div>
+              <h3 id="cat-t-${c.n}">Categoría ${c.n}. ${esc(c.titulo)}</h3>
+              <p>${esc(c.desc)}</p>
+              <p class="geo"><svg aria-hidden="true"><use href="#i-pin"/></svg>Procedencia geográfica: ${esc(PROCEDENCIA)}</p>
+            </div>
+          </div>
+          <div class="cards">${items.map(r => tarjeta(r, terminos, i++)).join("")}</div>
+        </section>`;
+      }).join("");
+    }
+
+    /* ---------- Dicho del día ---------- */
+    let diaActual = null;
+    function textoParaCompartir(r) { return `“${r.texto}” — ${r.significado}`; }
+    function pintarDia(r) {
+      diaActual = r;
+      $("#dia-texto").textContent = `“${r.texto}”`;
+      $("#dia-significado").textContent = r.significado;
+      const b = $("#dia-audio");
+      b.dataset.audio = r.id; b.dataset.state = actual === r.id ? "playing" : "idle";
+      b.innerHTML = SVG_AUDIO; b.setAttribute("aria-label", `Escuchar refrán ${r.id}`);
+      $("#daily").hidden = false;
+    }
+    function refranDeHoy() {
+      const h = new Date();
+      const dias = Math.floor(Date.UTC(h.getFullYear(), h.getMonth(), h.getDate()) / 864e5);
+      return refranes[dias % refranes.length];
+    }
+    $("#dia-otro").addEventListener("click", () => {
+      let r; do { r = refranes[Math.floor(Math.random() * refranes.length)]; } while (r === diaActual && refranes.length > 1);
+      if (actual !== null) detener();
+      pintarDia(r);
+      $("#dia-titulo").textContent = "Un dicho al azar";
+    });
+    $("#dia-copiar").addEventListener("click", () => copiar(textoParaCompartir(diaActual), "Refrán copiado"));
+    $("#dia-ver").addEventListener("click", e => { e.preventDefault(); irARefran(diaActual.id); });
+
+    /* ---------- Eventos de la lista ---------- */
+    document.addEventListener("click", e => {
+      const chip = e.target.closest(".chip");
+      if (chip) {
+        if (chip.id === "chip-fav") estado.soloFavs = !estado.soloFavs;
+        else estado.cat = chip.dataset.cat;
+        render(true);
+        return;
+      }
+      const btn = e.target.closest("[data-act]");
+      if (!btn) return;
+      const card = btn.closest("[data-id]");
+      const id = card ? Number(card.dataset.id) : Number(btn.dataset.audio);
+      switch (btn.dataset.act) {
+        case "audio": alternarAudio(id); break;
+        case "fav": {
+          if (favs.has(id)) favs.delete(id); else favs.add(id);
+          store.set("palabra-nica-favs", [...favs]);
+          if (estado.soloFavs) render(false);
+          else { btn.setAttribute("aria-pressed", String(favs.has(id))); $("#stat-favs").textContent = favs.size; pintarChips(); }
+          toast(favs.has(id) ? "Guardado en tus favoritos" : "Quitado de tus favoritos");
+          break;
+        }
+        case "copy": copiar(textoParaCompartir(porId(id)), "Refrán copiado"); break;
+        case "link": copiar(`${location.href.split("#")[0]}#refran-${id}`, "Enlace copiado"); break;
+        case "reset": estado.cat = "Todas"; estado.q = ""; estado.soloFavs = false; $("#search-input").value = ""; render(true); break;
+      }
+    });
+
+    let debounce;
+    $("#search-input").addEventListener("input", e => {
+      estado.q = e.target.value;
+      clearTimeout(debounce); debounce = setTimeout(() => render(false), 120);
+    });
+    document.addEventListener("keydown", e => {
+      if (e.key === "/" && !/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) {
+        e.preventDefault(); $("#search-input").focus();
+      }
+      if (e.key === "Escape" && actual !== null) detener();
+    });
+
+    function irARefran(id) {
+      if (!$(`#refran-${id}`)) { estado.cat = "Todas"; estado.q = ""; estado.soloFavs = false; $("#search-input").value = ""; render(false); }
+      const el = $(`#refran-${id}`); if (!el) return;
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
+    }
+
+    /* ---------- Reto ---------- */
+    const quiz = { puntos: 0, total: 0, racha: 0, mejor: 0, r: null, hecha: false };
+    function nuevaPregunta() {
+      const r = refranes[Math.floor(Math.random() * refranes.length)];
+      const otros = shuffle(refranes.filter(x => x.id !== r.id && x.significado !== r.significado)).slice(0, 3);
+      quiz.r = r; quiz.hecha = false;
+      quiz.opciones = shuffle([r, ...otros]);
+      pintarQuiz();
+    }
+    function pintarQuiz(fb) {
+      const q = $("#quiz"), r = quiz.r;
+      q.innerHTML = `
+        <div class="quiz-top">
+          <div class="score" aria-label="Puntaje">
+            <span>Aciertos: ${quiz.puntos}/${quiz.total}</span><span>Racha: ${quiz.racha} 🔥</span><span>Mejor: ${quiz.mejor}</span>
+          </div>
+        </div>
+        <p class="quiz-q">“${esc(r.texto)}”</p>
+        <div class="quiz-sub"><span>¿Cuál de estos es su significado?</span>
+          <button type="button" class="btn-audio" data-act="audio" data-audio="${r.id}" data-state="${actual === r.id ? "playing" : "idle"}">${SVG_AUDIO}</button></div>
+        <div class="options">${quiz.opciones.map(o => {
+          let cls = "";
+          if (quiz.hecha) cls = o.id === r.id ? "correct" : (o.id === quiz.elegida ? "wrong" : "dim");
+          return `<button type="button" class="option ${cls}" data-opt="${o.id}" ${quiz.hecha ? "disabled" : ""}>${esc(o.significado)}</button>`;
+        }).join("")}</div>
+        <div class="quiz-foot">
+          ${fb ? `<span class="feedback ${fb.ok ? "ok" : "no"}">${fb.msg}</span>` : ""}
+          ${quiz.hecha ? `<button type="button" class="btn" id="quiz-next">Siguiente dicho →</button>` : ""}
+        </div>`;
+    }
+    $("#quiz").addEventListener("click", e => {
+      if (e.target.closest("#quiz-next")) { nuevaPregunta(); return; }
+      const o = e.target.closest(".option"); if (!o || quiz.hecha) return;
+      const id = Number(o.dataset.opt), ok = id === quiz.r.id;
+      quiz.hecha = true; quiz.elegida = id; quiz.total++;
+      if (ok) { quiz.puntos++; quiz.racha++; quiz.mejor = Math.max(quiz.mejor, quiz.racha); } else quiz.racha = 0;
+      pintarQuiz({ ok, msg: ok ? "¡Cabal! Le atinaste." : "Ideay, casi. La respuesta correcta está en verde." });
+      const nx = $("#quiz-next"); if (nx) nx.focus({ preventScroll: true });
+    });
+
+    /* ---------- Volver arriba ---------- */
+    const aTop = $("#to-top");
+    addEventListener("scroll", () => aTop.classList.toggle("show", scrollY > 700), { passive: true });
+    aTop.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+
+    /* ---------- Arranque ---------- */
+    async function cargar() {
+      let datos = null;
+      try {
+        const res = await fetch("refranes.json", { cache: "no-cache" });
+        if (!res.ok) throw new Error(res.status);
+        datos = await res.json();
+      } catch {
+        if (Array.isArray(window.REFRANES)) datos = window.REFRANES;   // respaldo para file://
+      }
+      if (!Array.isArray(datos) || !datos.length) {
+        $("#lista").setAttribute("aria-busy", "false");
+        $("#lista").innerHTML = `<div class="cards"><div class="empty">
+          <svg aria-hidden="true"><use href="#i-volcan"/></svg>
+          <h3>¡A la pucha, no se pudieron cargar los refranes!</h3>
+          <p>Verificá que refranes.json esté junto a index.html y abrí la página desde un servidor local.</p></div></div>`;
+        $("#result-count").textContent = "0 dichos";
+        return;
+      }
+      refranes = datos.map((r, i) => ({ ...r, id: r.id ?? i + 1, _f: fold(`${r.texto} ${r.significado}`) }));
+      $("#stat-total").textContent = refranes.length;
+      pintarDia(refranDeHoy());
+      render(true);
+      nuevaPregunta();
+      const m = location.hash.match(/^#refran-(\d+)$/);
+      if (m) setTimeout(() => irARefran(Number(m[1])), 350);
+    }
+    cargar();
+  })();
+  </script>
+</body>
+</html>
