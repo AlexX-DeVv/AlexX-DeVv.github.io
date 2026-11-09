@@ -1,0 +1,18 @@
+CARPETA DE AUDIOS — Palabra Nica
+================================
+
+Poné aquí las grabaciones de cada refrán. El nombre del archivo debe coincidir
+con el número del refrán (tres dígitos):
+
+    refran-001.mp3   ->  "Cada lora a su guanacaste."
+    refran-002.mp3   ->  "Un momento, La Paz Centro, que está hablando Nagarote."
+    ...
+    refran-100.mp3   ->  "Al buen pagador no le deben prendas."
+
+Notas
+-----
+* Formato recomendado: MP3 (también funcionan .ogg, .wav y .m4a).
+* Si usás otro nombre o formato, cambiá el campo "audio" de ese refrán en
+  refranes.json (y en refranes.js si abrís la página con doble clic).
+* Mientras un refrán no tenga su archivo, el botón "Escuchar" lee el dicho con
+  la voz en español del navegador, así nunca queda un botón muerto.
