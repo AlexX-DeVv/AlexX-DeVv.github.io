@@ -20,6 +20,7 @@
             (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       } catch (e) {}
       document.documentElement.setAttribute("data-theme", t);
+      try { var z = parseFloat(JSON.parse(localStorage.getItem("palabra-nica-zoom"))); if (z >= 1 && z <= 1.3) document.documentElement.style.setProperty("--zoom", z); } catch (e) {}
     })();
   </script>
 
@@ -68,7 +69,7 @@
 
     /* ============ BASE ============ */
     *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; font-size: calc(100% * var(--zoom, 1)); }
     body {
       margin: 0;
       font-family: "Outfit", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -186,7 +187,7 @@
     }
     .section-head svg { width: 44px; height: 44px; flex: none; }
 
-    /* DICHO DEL DÍA */
+    /* REFRÁN DEL DÍA */
     .daily {
       position: relative; overflow: hidden; border-radius: 28px; padding: 34px 36px;
       color: #fff; box-shadow: var(--shadow-hover);
@@ -289,8 +290,6 @@
       line-height: 1.2; color: color-mix(in srgb, var(--c) 78%, var(--ink));
     }
     .cat-intro p { margin: 0 0 4px; color: var(--muted); }
-    .cat-intro .geo { margin: 6px 0 0; color: var(--ink); font-weight: 600; font-size: .95rem; display: flex; gap: 8px; align-items: center; }
-    .cat-intro .geo svg { width: 18px; height: 18px; color: var(--c); flex: none; }
 
     .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 
@@ -334,7 +333,7 @@
       color: color-mix(in srgb, var(--c) 78%, var(--ink)); margin-bottom: 3px;
     }
     mark { background: color-mix(in srgb, var(--sol) 65%, transparent); color: inherit; border-radius: 4px; padding: 0 2px; }
-    .actions { display: flex; align-items: center; gap: 8px; padding-top: 14px; border-top: 1px dashed var(--line); }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-top: 14px; border-top: 1px dashed var(--line); }
 
     /* BOTÓN DE AUDIO */
     .btn-audio {
@@ -387,6 +386,30 @@
     .empty p { margin: 0 0 16px; color: var(--muted); }
     .empty button { border: 2px solid var(--azul); background: transparent; color: var(--azul); font-weight: 700; padding: 9px 20px; border-radius: 999px; }
     .empty button:hover { background: var(--tint); }
+
+    /* HERRAMIENTAS DEL BUSCADOR */
+    .tools { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; }
+    .suggest { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: var(--muted); font-size: .9rem; font-weight: 600; }
+    .suggest button {
+      border: 1.5px dashed var(--line); background: transparent; color: var(--azul); font-weight: 700; font-size: .88rem;
+      padding: 3px 12px; border-radius: 999px; transition: background-color .2s, border-color .2s;
+    }
+    .suggest button:hover { background: var(--tint); border-color: var(--azul); }
+    .tool-group { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .tool-btn {
+      display: inline-flex; align-items: center; gap: 7px; border: 2px solid var(--line); background: var(--card);
+      font-weight: 700; font-size: .88rem; padding: 6px 14px; border-radius: 999px; transition: border-color .2s, color .2s, transform .15s;
+    }
+    .tool-btn:hover:not(:disabled) { border-color: var(--azul); color: var(--azul); transform: translateY(-1px); }
+    .tool-btn:disabled { opacity: .45; cursor: default; }
+    .tool-btn svg { width: 17px; height: 17px; }
+    .zoom { display: inline-flex; border: 2px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--card); }
+    .zoom button { border: 0; background: transparent; font-weight: 800; padding: 5px 13px; min-width: 40px; }
+    .zoom button:hover:not(:disabled) { background: var(--tint); color: var(--azul); }
+    .zoom button:disabled { opacity: .4; cursor: default; }
+    .zoom button + button { border-left: 2px solid var(--line); }
+    #copiar-favs { margin-left: auto; }
+    .results-right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 
     /* RETO */
     .quiz {
@@ -444,6 +467,10 @@
       .nav a { display: none; }
     }
     @media (max-width: 720px) {
+      .actions { gap: 5px; }
+      .icon-btn { width: 36px; height: 36px; }
+      .icon-btn svg { width: 17px; height: 17px; }
+      .actions .btn-audio { padding: 8px 14px 8px 12px; }
       .cards, .options { grid-template-columns: 1fr; }
       .daily { padding: 26px 22px; }
       .cat-intro { grid-template-columns: 1fr; gap: 10px; }
@@ -555,6 +582,8 @@
       <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2.500" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
       <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
       <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 22s7-6.200 7-12a7 7 0 0 0-14 0c0 5.800 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.500" fill="currentColor"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.500a8.500 8.500 0 0 1-12.600 7.400L3 20l1.200-5.200A8.500 8.500 0 1 1 21 11.500z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 9.500c.5 2.500 2.500 4.500 5.500 5.500l1.300-1.400-1.800-1-.9.800c-1-.4-1.900-1.300-2.300-2.300l.8-.9-1-1.800z" fill="currentColor"/></symbol>
+      <symbol id="i-dice" viewBox="0 0 24 24"><rect x="3.500" y="3.500" width="17" height="17" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8.500" cy="8.500" r="1.500" fill="currentColor"/><circle cx="15.500" cy="8.500" r="1.500" fill="currentColor"/><circle cx="12" cy="12" r="1.500" fill="currentColor"/><circle cx="8.500" cy="15.500" r="1.500" fill="currentColor"/><circle cx="15.500" cy="15.500" r="1.500" fill="currentColor"/></symbol>
       <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     </defs>
   </svg>
@@ -568,7 +597,7 @@
         <span><b>Palabra Nica</b><small>Refranero popular</small></span>
       </a>
       <nav class="nav" aria-label="Principal">
-        <a href="#dia">Dicho del día</a>
+        <a href="#dia">Refrán del día</a>
         <a href="#refranes">Refranes</a>
         <a href="#reto">Reto</a>
         <button class="theme-toggle" id="btn-theme" type="button" aria-label="Cambiar entre modo claro y oscuro">
@@ -692,18 +721,19 @@
       </div>
     </section>
 
-    <!-- ============ DICHO DEL DÍA ============ -->
+    <!-- ============ REFRÁN DEL DÍA ============ -->
     <section class="section" id="dia" aria-labelledby="dia-titulo">
       <div class="wrap">
         <div class="daily" id="daily" hidden>
           <svg class="daily-flower" aria-hidden="true"><use href="#i-sacuanjoche"/></svg>
-          <span class="badge"><svg width="16" height="16" aria-hidden="true"><use href="#i-sacuanjoche"/></svg> <span id="dia-titulo">El dicho de hoy</span></span>
+          <span class="badge"><svg width="16" height="16" aria-hidden="true"><use href="#i-sacuanjoche"/></svg> <span id="dia-titulo">El refrán de hoy</span></span>
           <blockquote id="dia-texto" aria-live="polite"></blockquote>
           <p class="meaning" id="dia-significado"></p>
           <div class="daily-actions">
             <button type="button" class="btn-audio" id="dia-audio" data-act="audio" data-state="idle"></button>
-            <button type="button" class="pill-btn" id="dia-otro"><svg aria-hidden="true"><use href="#i-shuffle"/></svg> Otro dicho</button>
+            <button type="button" class="pill-btn" id="dia-otro"><svg aria-hidden="true"><use href="#i-shuffle"/></svg> Otro refrán</button>
             <button type="button" class="pill-btn" id="dia-copiar"><svg aria-hidden="true"><use href="#i-copy"/></svg> Copiar</button>
+            <button type="button" class="pill-btn" id="dia-wa"><svg aria-hidden="true"><use href="#i-chat"/></svg> WhatsApp</button>
             <a class="pill-btn" id="dia-ver" href="#refranes" style="text-decoration:none"><svg aria-hidden="true"><use href="#i-pin"/></svg> Ver en la lista</a>
           </div>
         </div>
@@ -731,11 +761,28 @@
             <span class="search-label" id="filtro-label">Filtrá por categoría</span>
             <div class="chips" id="chips" role="group" aria-labelledby="filtro-label"></div>
           </div>
+          <div class="tools">
+            <div class="suggest" id="suggest"><span>Probá con:</span>
+              <button type="button" data-q="chancho">chancho</button><button type="button" data-q="pinol">pinol</button>
+              <button type="button" data-q="perro">perro</button><button type="button" data-q="paciencia">paciencia</button>
+              <button type="button" data-q="agua">agua</button><button type="button" data-q="amigos">amigos</button>
+            </div>
+            <div class="tool-group">
+              <button type="button" class="tool-btn" id="btn-azar"><svg aria-hidden="true"><use href="#i-dice"/></svg> Refrán al azar</button>
+              <div class="zoom" role="group" aria-label="Tamaño del texto">
+                <button type="button" id="zoom-menos" aria-label="Reducir texto" title="Reducir texto">A−</button>
+                <button type="button" id="zoom-mas" aria-label="Aumentar texto" title="Aumentar texto">A+</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="results-bar">
           <h2>Resultados</h2>
-          <span id="result-count" role="status" aria-live="polite">…</span>
+          <div class="results-right">
+            <button type="button" class="tool-btn" id="copiar-favs" hidden><svg aria-hidden="true"><use href="#i-copy"/></svg> Copiar mis favoritos</button>
+            <span id="result-count" role="status" aria-live="polite">…</span>
+          </div>
         </div>
 
         <div id="lista" aria-busy="true">
@@ -761,7 +808,7 @@
   <footer class="site-footer">
     <div class="flagbar" aria-hidden="true"></div>
     <div class="wrap footer-inner">
-      <p><strong>Palabra Nica</strong>Hecho para no olvidar las raíces de la palabra nicaragüense. Los refranes pertenecen a la tradición oral popular; la procedencia geográfica exacta de cada uno no está indicada.</p>
+      <p><strong>Palabra Nica</strong>Hecho para no olvidar las raíces de la palabra nicaragüense. Los refranes pertenecen a la tradición oral popular.</p>
       <div class="symbols" aria-label="Símbolos de Nicaragua">
         <svg aria-label="Sacuanjoche, flor nacional"><use href="#i-sacuanjoche"/></svg>
         <svg aria-label="Guardabarranco, ave nacional"><use href="#i-guardabarranco"/></svg>
@@ -783,7 +830,6 @@
     "use strict";
 
     /* ---------- Categorías (textos del documento "refranes (1)") ---------- */
-    const PROCEDENCIA = "Nicaragua; departamento específico no indicado.";
     const CATEGORIAS = [
       { key: "Identidad", n: 1, icon: "i-sacuanjoche", color: "#1D5FD1", corta: "Identidad",
         titulo: "Identidad cultural y expresiones populares",
@@ -934,6 +980,7 @@
           <button type="button" class="icon-btn fav" data-act="fav" aria-pressed="${fav}" aria-label="Guardar en favoritos" title="Favorito"><svg aria-hidden="true"><use href="#i-heart"/></svg></button>
           <button type="button" class="icon-btn" data-act="copy" aria-label="Copiar refrán" title="Copiar"><svg aria-hidden="true"><use href="#i-copy"/></svg></button>
           <button type="button" class="icon-btn" data-act="link" aria-label="Copiar enlace a este refrán" title="Copiar enlace"><svg aria-hidden="true"><use href="#i-link"/></svg></button>
+          <button type="button" class="icon-btn" data-act="wa" aria-label="Compartir por WhatsApp" title="Compartir por WhatsApp"><svg aria-hidden="true"><use href="#i-chat"/></svg></button>
         </div>
       </article>`;
     }
@@ -966,6 +1013,7 @@
 
       $("#result-count").textContent = `${lista.length} dicho${lista.length === 1 ? "" : "s"}`;
       $("#stat-favs").textContent = favs.size;
+      $("#copiar-favs").hidden = !(estado.soloFavs && lista.length);
       pintarChips();
       const cont = $("#lista");
       cont.setAttribute("aria-busy", "false");
@@ -993,7 +1041,6 @@
             <div>
               <h3 id="cat-t-${c.n}">Categoría ${c.n}. ${esc(c.titulo)}</h3>
               <p>${esc(c.desc)}</p>
-              <p class="geo"><svg aria-hidden="true"><use href="#i-pin"/></svg>Procedencia geográfica: ${esc(PROCEDENCIA)}</p>
             </div>
           </div>
           <div class="cards">${items.map(r => tarjeta(r, terminos, i++)).join("")}</div>
@@ -1001,9 +1048,14 @@
       }).join("");
     }
 
-    /* ---------- Dicho del día ---------- */
+    /* ---------- Refrán del día ---------- */
     let diaActual = null;
     function textoParaCompartir(r) { return `“${r.texto}” — ${r.significado}`; }
+    function compartirWhatsApp(r) {
+      const enlace = `${location.href.split("#")[0]}#refran-${r.id}`;
+      const msg = `${textoParaCompartir(r)}\n\nPalabra Nica: ${enlace}`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
+    }
     function pintarDia(r) {
       diaActual = r;
       $("#dia-texto").textContent = `“${r.texto}”`;
@@ -1022,9 +1074,10 @@
       let r; do { r = refranes[Math.floor(Math.random() * refranes.length)]; } while (r === diaActual && refranes.length > 1);
       if (actual !== null) detener();
       pintarDia(r);
-      $("#dia-titulo").textContent = "Un dicho al azar";
+      $("#dia-titulo").textContent = "Un refrán al azar";
     });
     $("#dia-copiar").addEventListener("click", () => copiar(textoParaCompartir(diaActual), "Refrán copiado"));
+    $("#dia-wa").addEventListener("click", () => compartirWhatsApp(diaActual));
     $("#dia-ver").addEventListener("click", e => { e.preventDefault(); irARefran(diaActual.id); });
 
     /* ---------- Eventos de la lista ---------- */
@@ -1051,10 +1104,46 @@
           break;
         }
         case "copy": copiar(textoParaCompartir(porId(id)), "Refrán copiado"); break;
+        case "wa": compartirWhatsApp(porId(id)); break;
         case "link": copiar(`${location.href.split("#")[0]}#refran-${id}`, "Enlace copiado"); break;
         case "reset": estado.cat = "Todas"; estado.q = ""; estado.soloFavs = false; $("#search-input").value = ""; render(true); break;
       }
     });
+
+    /* Sugerencias de búsqueda */
+    $("#suggest").addEventListener("click", e => {
+      const b = e.target.closest("[data-q]"); if (!b) return;
+      estado.q = b.dataset.q; $("#search-input").value = estado.q;
+      estado.cat = "Todas"; estado.soloFavs = false; render(true);
+      $("#lista").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    /* Refrán al azar (entre los que se ven ahora; si no hay, entre todos) */
+    $("#btn-azar").addEventListener("click", () => {
+      const vis = $$(".card[data-id]");
+      const id = vis.length ? Number(vis[Math.floor(Math.random() * vis.length)].dataset.id)
+                            : refranes[Math.floor(Math.random() * refranes.length)].id;
+      irARefran(id);
+    });
+
+    /* Copiar favoritos */
+    $("#copiar-favs").addEventListener("click", () => {
+      const txt = refranes.filter(r => favs.has(r.id)).map(r => `${r.id}. ${textoParaCompartir(r)}`).join("\n\n");
+      if (txt) copiar(`Mis refranes favoritos — Palabra Nica\n\n${txt}`, "Favoritos copiados");
+    });
+
+    /* Tamaño del texto */
+    const ZOOMS = [1, 1.12, 1.25];
+    let zoomIdx = Math.max(0, ZOOMS.indexOf(store.get("palabra-nica-zoom", 1)));
+    function aplicarZoom() {
+      document.documentElement.style.setProperty("--zoom", ZOOMS[zoomIdx]);
+      $("#zoom-menos").disabled = zoomIdx === 0;
+      $("#zoom-mas").disabled = zoomIdx === ZOOMS.length - 1;
+      store.set("palabra-nica-zoom", ZOOMS[zoomIdx]);
+    }
+    $("#zoom-menos").addEventListener("click", () => { zoomIdx = Math.max(0, zoomIdx - 1); aplicarZoom(); });
+    $("#zoom-mas").addEventListener("click", () => { zoomIdx = Math.min(ZOOMS.length - 1, zoomIdx + 1); aplicarZoom(); });
+    aplicarZoom();
 
     let debounce;
     $("#search-input").addEventListener("input", e => {
